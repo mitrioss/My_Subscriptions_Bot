@@ -1,2 +1,4 @@
-flaskapi==
-python-decouple==
+fastapi==0.115.8
+python-decouple==3.8
+uvicorn==0.034.0
+sqlalchemy==2.0.38
