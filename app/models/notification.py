@@ -1,17 +1,39 @@
-from sqlalchemy import Column, Integer, ForeignKey, Date, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, ForeignKey, Date, Boolean
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 from app.database.base import Base
+from app.models.user_subscription import UserSubscription
 
 
 class Notification(Base):
     __tablename__ = "notifications"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_subscription_id = Column(Integer,
-                                  ForeignKey('user_subscriptions.id'),
-                                  nullable=False)
-    notify_date = Column(Date, nullable=False)
-    status = Column(Boolean, default=False)  # False - не отправлено, True - отправлено
+    id: Mapped[int] = mapped_column(
+        primary_key=True,
+        index=True,
+        description="Уникальный идентификатор уведомления"
+    )
 
-    user_subscription = relationship("UserSubscription",
-                                     back_populates="notifications")
+    user_subscription_id: Mapped[int] = mapped_column(
+        ForeignKey("user_subscriptions.id"),
+        nullable=False,
+        description="ID подписки, по которой отправляется уведомление"
+    )
+
+    notify_date: Mapped[Date] = mapped_column(
+        Date,
+        nullable=False,
+        description="Дата уведомления"
+    )
+
+    is_sent: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False,
+        description="Статус отправки уведомления (True - отправлено, False - не отправлено)"
+    )
+
+    user_subscription: Mapped["UserSubscription"] = relationship(
+        "UserSubscription", back_populates="notifications"
+    )
+
+
