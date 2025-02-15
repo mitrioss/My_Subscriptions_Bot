@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.api import users
-from app.database.session import engine
+from app.database import engine
 from app.database.base import Base
 
 

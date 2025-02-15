@@ -1,6 +1,7 @@
 from sqlalchemy import Integer, ForeignKey, Date, Boolean
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from app.database.base import Base
+
+from app.database import Base
 from app.models.user_subscription import UserSubscription
 
 
@@ -36,4 +37,7 @@ class Notification(Base):
         "UserSubscription", back_populates="notifications"
     )
 
-
+    def __str__(self):
+        # Возвращает строку с username
+        return (f"{self.__class__.__name__}(id={self.id}, "
+                f"subscription_name={self.user_subscription_id!r})")

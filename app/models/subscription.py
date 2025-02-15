@@ -1,7 +1,8 @@
 from enum import Enum
 from sqlalchemy import String, Integer
-from app.database.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from app.database import Base
 from app.models.user_subscription import UserSubscription
 
 
@@ -42,3 +43,7 @@ class Subscription(Base):
     user_subscriptions: Mapped[list["UserSubscription"]] = relationship(
         "UserSubscription", back_populates="subscription")
 
+    def __str__(self):
+        # Возвращает строку с username
+        return (f"{self.__class__.__name__}(id={self.id}, "
+                f"subscription_name={self.name!r})")

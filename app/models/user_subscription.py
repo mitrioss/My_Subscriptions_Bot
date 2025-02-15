@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, ForeignKey, DateTime, Integer
-from app.database.base import Base
+
+from app.database import Base
 from app.models.subscription import Subscription
 from app.models.user import User
 
@@ -44,3 +45,7 @@ class UserSubscription(Base):
         "Subscription",
         back_populates="user_subscriptions")
 
+    def __str__(self):
+        # Возвращает строку с id подписки и названием подписки
+        return (f"{self.__class__.__name__}(id={self.id}, "
+                f"subscription_name={self.subscription.name!r})")
