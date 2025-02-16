@@ -1,9 +1,7 @@
 from enum import Enum
-from sqlalchemy import String, Integer
+from sqlalchemy import String, Integer, Enum as SQLAlchemyEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from app.database import Base
-from app.models.user_subscription import UserSubscription
 
 
 class Category(str, Enum):
@@ -24,21 +22,13 @@ class Category(str, Enum):
 class Subscription(Base):
     __tablename__ = "subscriptions"
 
-    id: Mapped[int] = mapped_column(
-        primary_key=True,
-        description="Уникальный идентификатор подписки")
+    id: Mapped[int] = mapped_column(primary_key=True)
 
     name: Mapped[str] = mapped_column(
-        String(50),
-        unique=True,
-        nullable=False,
-        description="Название подписки")
+        String(50), unique=True, nullable=False)
 
     category: Mapped[Category] = mapped_column(
-        Enum(Category),
-        nullable=False,
-        index=True,
-        description="Категория подписки")
+        SQLAlchemyEnum(Category), nullable=False, index=True)
 
     user_subscriptions: Mapped[list["UserSubscription"]] = relationship(
         "UserSubscription", back_populates="subscription")

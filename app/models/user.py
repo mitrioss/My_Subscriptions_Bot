@@ -1,22 +1,16 @@
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer
-
 from app.database import Base
-from app.models.user_subscription import UserSubscription
+
 
 class User(Base):
     __tablename__ = "users"
 
-    id: Mapped[int] = mapped_column(
-        primary_key=True,
-        description="Уникальный идентификатор пользователя")
+    id: Mapped[int] = mapped_column(primary_key=True)
 
     username: Mapped[str] = mapped_column(
-        String(50),
-        unique=True,
-        nullable=False,
-        description="Уникальное имя пользователя")
+        String(50), unique=True, nullable=False)
 
     subscriptions: Mapped[List["UserSubscription"]] = relationship(
         "UserSubscription",
