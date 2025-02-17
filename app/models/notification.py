@@ -8,8 +8,8 @@ class Notification(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True,)
 
-    user_subscription_id: Mapped[int] = mapped_column(
-        ForeignKey("user_subscriptions.id"), nullable=False)
+    subscription_id: Mapped[int] = mapped_column(
+        ForeignKey("subscriptions.id"), nullable=False)
 
     notify_date: Mapped[Date] = mapped_column(
         Date, nullable=False)
@@ -17,11 +17,9 @@ class Notification(Base):
     is_sent: Mapped[bool] = mapped_column(
         Boolean, default=False, nullable=False)
 
-    user_subscription: Mapped["UserSubscription"] = relationship(
-        "UserSubscription", back_populates="notifications"
+    subscription: Mapped["UserSubscription"] = relationship(
+        "Subscription", back_populates="notifications"
     )
 
     def __str__(self):
-        # Возвращает строку с username
-        return (f"{self.__class__.__name__}(id={self.id}, "
-                f"subscription_name={self.user_subscription_id!r})")
+        return f"{self.__class__.__name__}(id={self.id}, subscription_id={self.subscription_id!r})"

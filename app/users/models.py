@@ -12,12 +12,13 @@ class User(Base):
     username: Mapped[str] = mapped_column(
         String(50), unique=True, nullable=False)
 
-    subscriptions: Mapped[List["UserSubscription"]] = relationship(
-        "UserSubscription",
-    back_populates="user")
+    subscriptions: Mapped[List["Subscription"]] = relationship(
+        "Subscription",
+        back_populates="user")
+
 
     def __str__(self):
         # Возвращает строку с username
         return (f"{self.__class__.__name__}(id={self.id}, "
-                f"name={self.self.username!r})")
+                f"name={self.username!r})")
 

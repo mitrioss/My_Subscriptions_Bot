@@ -6,30 +6,32 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-
 import sys
 from os.path import dirname, abspath
+from app.database import SQLALCHEMY_DATABASE_URL, Base
+
+# 🛠️ ВАЖНО: Импорт моделей перед target_metadata
+from app.users.models import User
+from app.subscriptions.models import Subscription
 
 sys.path.insert(0, dirname(dirname(abspath(__file__))))
 
-from app.database import SQLALCHEMY_DATABASE_URL, Base
-from app.models import notification, subscription, user, user_subscription
-
 config = context.config
 config.set_main_option("sqlalchemy.url", SQLALCHEMY_DATABASE_URL)
+
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = Base.metadata
+target_metadata = Base.metadata  # Теперь метаданные включают таблицы!
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-config = context.config
+#config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
+#if config.config_file_name is not None:
+#    fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
