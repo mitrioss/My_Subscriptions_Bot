@@ -29,7 +29,7 @@ class Subscription(Base):
     )
 
     name: Mapped[str] = mapped_column(
-        String(50), unique=True, nullable=False)
+        String(50), nullable=False)
 
     category: Mapped[Category] = mapped_column(
         SQLAlchemyEnum(Category), nullable=False, index=True)
@@ -52,3 +52,14 @@ class Subscription(Base):
         # Возвращает строку с username
         return (f"{self.__class__.__name__}(id={self.id}, "
                 f"subscription_name={self.name!r})")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+            "category": self.category,
+            "cost": self.cost,
+            "next_payment_date": self.next_payment_date,
+            "comment": self.comment
+        }
